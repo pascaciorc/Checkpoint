@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
