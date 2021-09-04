@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.pascaciorc.checkpoint.adapter.CheckpointAdapter
 import com.pascaciorc.checkpoint.data.Checkpoint
 import com.pascaciorc.checkpoint.databinding.FragmentDashboardBinding
+import com.pascaciorc.checkpoint.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
