@@ -9,5 +9,22 @@
         android:id="@+id/dashboardFragment"
         android:name="com.pascaciorc.checkpoint.DashboardFragment"
         android:label="DashboardFragment"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_inputFragment"
+            app:destination="@id/inputFragment" >
+            <argument
+                android:name="location"
+                app:argType="android.location.Location" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/inputFragment"
+        android:name="com.pascaciorc.checkpoint.InputFragment"
+        android:label="InputFragment"
+        tools:layout="@layout/fragment_input">
+        <argument
+            android:name="location"
+            app:argType="android.location.Location" />
+    </fragment>
 </navigation>

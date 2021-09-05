@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.pascaciorc.checkpoint.adapter.CheckpointAdapter
@@ -80,7 +81,8 @@ class DashboardFragment : Fragment() {
     @SuppressLint("MissingPermission")
     fun getLastKnownLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            viewModel.getNearbyPlaces("chillis", Location(location.latitude, location.longitude))
+            val action = DashboardFragmentDirections.actionDashboardFragmentToInputFragment(location)
+            findNavController().navigate(action)
         }
     }
 }
