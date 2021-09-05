@@ -18,6 +18,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.pascaciorc.checkpoint.adapter.CheckpointAdapter
 import com.pascaciorc.checkpoint.data.Checkpoint
+import com.pascaciorc.checkpoint.data.Location
 import com.pascaciorc.checkpoint.databinding.FragmentDashboardBinding
 import com.pascaciorc.checkpoint.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,17 +48,13 @@ class DashboardFragment : Fragment() {
             requestPermission(activity as Activity)
         }
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.checkpointRecyclerView.adapter = CheckpointAdapter(
             listOf(
                 Checkpoint("Nombre de prueba", "Direccion de prueba", 0L, 0L)
             )
         )
+
+        return binding.root
     }
 
     private fun requestPermission(activity: Activity) {
@@ -83,7 +80,7 @@ class DashboardFragment : Fragment() {
     @SuppressLint("MissingPermission")
     fun getLastKnownLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            Log.d("DASHBOARD", location.toString())
+            viewModel.getNearbyPlaces("chillis", Location(location.latitude, location.longitude))
         }
     }
 }
