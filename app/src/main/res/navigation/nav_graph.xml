@@ -48,5 +48,27 @@
         <argument
             android:name="keyword"
             app:argType="string" />
+        <action
+            android:id="@+id/action_placesFragment_to_informationFragment"
+            app:destination="@id/informationFragment">
+            <argument
+                android:name="location"
+                app:argType="android.location.Location" />
+            <argument
+                android:name="item"
+                app:argType="com.pascaciorc.checkpoint.data.PlaceItem" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.pascaciorc.checkpoint.InformationFragment"
+        android:label="InformationFragment"
+        tools:layout="@layout/fragment_information">
+        <argument
+            android:name="location"
+            app:argType="android.location.Location" />
+        <argument
+            android:name="item"
+            app:argType="com.pascaciorc.checkpoint.data.PlaceItem" />
     </fragment>
 </navigation>

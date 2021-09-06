@@ -31,7 +31,7 @@ class PlacesFragment : Fragment() {
         viewModel.state.observeForever { state ->
             when(state) {
                 is PlacesState.Result -> {
-                    binding.placesRecyclerView.adapter = PlacesAdapter(state.places)
+                    binding.placesRecyclerView.adapter = PlacesAdapter(state.places, args.location)
                 }
                 is PlacesState.Loading -> {
                     binding.loadingLayout.visibility = View.VISIBLE
