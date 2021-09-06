@@ -13,7 +13,7 @@ import com.pascaciorc.checkpoint.utils.showKeyboard
 
 class InputFragment : Fragment() {
 
-    val args: InputFragmentArgs by navArgs()
+    private val args: InputFragmentArgs by navArgs()
     private lateinit var binding: FragmentInputBinding
 
     override fun onCreateView(
@@ -27,6 +27,14 @@ class InputFragment : Fragment() {
         binding.cancelButton.setOnClickListener {
             activity?.hideKeyboard()
             findNavController().navigateUp()
+        }
+
+        binding.searchButton.setOnClickListener {
+            activity?.hideKeyboard()
+            val action = InputFragmentDirections.actionInputFragmentToPlacesFragment(
+                args.location, binding.inputEditText.text.toString()
+            )
+            findNavController().navigate(action)
         }
 
         return binding.root

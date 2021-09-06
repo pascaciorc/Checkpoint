@@ -26,5 +26,27 @@
         <argument
             android:name="location"
             app:argType="android.location.Location" />
+        <action
+            android:id="@+id/action_inputFragment_to_placesFragment"
+            app:destination="@id/placesFragment" >
+            <argument
+                android:name="location"
+                app:argType="android.location.Location" />
+            <argument
+                android:name="keyword"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/placesFragment"
+        android:name="com.pascaciorc.checkpoint.PlacesFragment"
+        android:label="PlacesFragment"
+        tools:layout="@layout/fragment_places">
+        <argument
+            android:name="location"
+            app:argType="android.location.Location" />
+        <argument
+            android:name="keyword"
+            app:argType="string" />
     </fragment>
 </navigation>
