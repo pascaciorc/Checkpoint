@@ -8,4 +8,5 @@ class CheckpointRepository @Inject constructor(private val dao: CheckpointDao) {
 
     fun getCheckpoints() = dao.getCheckpoints()
 
+    suspend fun insertCheckpoint(checkpoint: Checkpoint) = dao.insertCheckpoint(checkpoint)
 }

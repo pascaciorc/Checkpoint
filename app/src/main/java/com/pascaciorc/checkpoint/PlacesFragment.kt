@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.pascaciorc.checkpoint.adapter.PlacesAdapter
 import com.pascaciorc.checkpoint.data.PlacesState
 import com.pascaciorc.checkpoint.databinding.FragmentPlacesBinding
+import com.pascaciorc.checkpoint.utils.setUp
 import com.pascaciorc.checkpoint.viewmodel.PlacesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +29,15 @@ class PlacesFragment : Fragment() {
 
         viewModel.getNearbyPlaces(args.keyword, args.location)
 
-        viewModel.state.observeForever { state ->
+        binding.placesRecyclerView.setUp(requireContext())
+
+        subscribeUI()
+
+        return binding.root
+    }
+
+    private fun subscribeUI() {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             when(state) {
                 is PlacesState.Result -> {
                     binding.placesRecyclerView.adapter = PlacesAdapter(state.places, args.location)
@@ -41,7 +50,5 @@ class PlacesFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
 }

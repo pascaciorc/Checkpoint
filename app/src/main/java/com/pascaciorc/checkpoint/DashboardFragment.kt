@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +14,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.pascaciorc.checkpoint.adapter.CheckpointAdapter
-import com.pascaciorc.checkpoint.data.Checkpoint
-import com.pascaciorc.checkpoint.data.Location
+import com.pascaciorc.checkpoint.data.toCheckpointItem
 import com.pascaciorc.checkpoint.databinding.FragmentDashboardBinding
+import com.pascaciorc.checkpoint.utils.setUp
 import com.pascaciorc.checkpoint.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,13 +50,24 @@ class DashboardFragment : Fragment() {
             requestPermission(activity as Activity)
         }
 
-        binding.checkpointRecyclerView.adapter = CheckpointAdapter(
-            listOf(
-                Checkpoint("Nombre de prueba", "Direccion de prueba", 0L, 0L)
+        binding.checkpointRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL
             )
         )
 
+        binding.checkpointRecyclerView.setUp(requireContext())
+        subscribeUI()
+
         return binding.root
+    }
+
+    private fun subscribeUI() {
+        viewModel.checkpoints.observe(viewLifecycleOwner) { checkpoint ->
+            binding.checkpointRecyclerView.adapter =
+                CheckpointAdapter(checkpoint.map { it.toCheckpointItem(requireContext()) })
+        }
     }
 
     private fun requestPermission(activity: Activity) {
@@ -81,7 +93,8 @@ class DashboardFragment : Fragment() {
     @SuppressLint("MissingPermission")
     fun getLastKnownLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            val action = DashboardFragmentDirections.actionDashboardFragmentToInputFragment(location)
+            val action =
+                DashboardFragmentDirections.actionDashboardFragmentToInputFragment(location)
             findNavController().navigate(action)
         }
     }

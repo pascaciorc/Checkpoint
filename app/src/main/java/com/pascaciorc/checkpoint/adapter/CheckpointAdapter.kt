@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pascaciorc.checkpoint.data.Checkpoint
+import com.pascaciorc.checkpoint.data.CheckpointItem
 import com.pascaciorc.checkpoint.databinding.CheckpointItemBinding
 
-class CheckpointAdapter(private val checkpoints: List<Checkpoint>) :
+class CheckpointAdapter(private val checkpoints: List<CheckpointItem>) :
     RecyclerView.Adapter<CheckpointAdapter.CheckpointViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckpointViewHolder {
