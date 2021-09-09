@@ -2,8 +2,13 @@
     <string name="app_name">Checkpoint</string>
 
     <string name="created_on">Created on %1$s</string>
-    <string name="visited_on">Created on %1$s</string>
+    <string name="visited_on">Visited on %1$s</string>
 
     <string name="meters">%1$d m</string>
     <string name="kilometers">%1$s km</string>
+
+    <string name="notification_title">Geofences</string>
+    <string name="notification_channel_id">channelid</string>
+
+    <string name="geofence_id">GEO%1$d</string>
 </resources>
