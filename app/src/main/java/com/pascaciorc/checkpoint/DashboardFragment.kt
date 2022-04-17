@@ -4,12 +4,14 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -33,6 +35,17 @@ class DashboardFragment : Fragment() {
     private val viewModel: DashboardViewModel by viewModels()
 
     private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    requestBackgroundPermission(this.requireActivity())
+                } else {
+                    getLastKnownLocation()
+                }
+            }
+        }
+
+    private val requestBackgroundPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 getLastKnownLocation()
@@ -76,7 +89,11 @@ class DashboardFragment : Fragment() {
                 activity.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
-                getLastKnownLocation()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    requestBackgroundPermission(activity)
+                } else {
+                    getLastKnownLocation()
+                }
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 activity,
@@ -86,6 +103,27 @@ class DashboardFragment : Fragment() {
             }
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun requestBackgroundPermission(activity: Activity) {
+        when {
+            ContextCompat.checkSelfPermission(
+                activity.applicationContext,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                getLastKnownLocation()
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                activity,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) -> {
+
+            }
+            else -> {
+                requestBackgroundPermissionLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             }
         }
     }
